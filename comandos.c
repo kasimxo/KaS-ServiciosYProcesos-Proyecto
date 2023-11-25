@@ -17,13 +17,26 @@ int main() {
 
         fgets(input, MAX_LINE, stdin);
 
+	
+	//MODIFICACION:
+	//Incluimos un log para que el usurio pueda ver qué comandos ha introducido 
+	FILE* ComandosLog;
+	ComandosLog = fopen("ComandosLog", "a");
+	fwrite(input,1, sizeof(input), ComandosLog);
+	fclose(ComandosLog);	
+
         // Reemplazar el salto de línea con un terminador de cadena
         input[strlen(input) - 1] = '\0';
-
-        // Salir si el usuario ingresa "exit"
+        
+	// Salir si el usuario ingresa "exit"
         if (strcmp(input, "exit") == 0) {
             should_run = 0;
-        } else {
+	//MODIFICACION:
+	//Añadimos la posibilidad de que el usuario consulte su archivo ComandosLog
+       	} else if (strcmp(input, "log") == 0) {
+		system("cat ComandosLog");
+	
+	 } else {
             pid_t pid = fork();
 
             if (pid == 0) {

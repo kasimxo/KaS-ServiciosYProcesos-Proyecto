@@ -7,6 +7,13 @@
 
 #define MAX_LINE 80
 
+/*
+El proposito de este test unitario es evaluar si se ejecuta correctamente un comando:
+Exito -> El comando se ha ejecutado correctamente
+Fallo -> El comando no se ha ejecutado correctamente
+*/
+
+
 int ejecutarComando(char* comando) {
     pid_t pid = fork();
 

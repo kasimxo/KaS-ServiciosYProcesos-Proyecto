@@ -18,6 +18,17 @@ int ejecutarComando(char+ comando) { ... }
 Por limpieza definimos la función tras el main
 */
 
+/*
+El propósito de este test unitario es evaluar el resultado de la ejecución de un comando inventado
+Exito -> Si el comando inventado falla
+Fallo -> Si el comando inventado se ejecuta correctamente
+*/
+
+/*
+ORIGINAL:
+En un principio se evaluaba la ejecución del comando como correcta independientemente de que fuera inventado o no, lo que provocaba que el resultado de todos los test fuera fallo aún cuando no debía serlo.
+*/
+
 int main() {
     	//char comando_inexistente[] = "xyzabc";
     	char comando_inexistente[] = "datxxxxxe";
