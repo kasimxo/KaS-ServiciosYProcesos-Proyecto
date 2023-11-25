@@ -1,0 +1,6 @@
+#Ignoramos todos los archivos
+*
+
+#Incluimos excepciones para los archivos con extensiones
+!*.*
+!.gitignore
