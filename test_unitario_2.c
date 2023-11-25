@@ -12,6 +12,31 @@ int status;
 //Declaramos la función de ejecutarComando
 int ejecutarComando();
 
+/*
+ORIGINAL:
+int ejecutarComando(char+ comando) { ... }
+Por limpieza definimos la función tras el main
+*/
+
+int main() {
+    	//char comando_inexistente[] = "xyzabc";
+    	char comando_inexistente[] = "datxxxxxe";
+    	int resultado = ejecutarComando(comando_inexistente);
+    	/*
+	ORIGINAL:
+	if (resultado == -1) {
+    	Esta línea pretende evaluar si hemos recibido un código de error pero no funciona correctamente
+	*/
+	//Si todo ha ido bien el resultado será 0, por lo que evaluamos si ha habido algún error:
+	if (resultado != 0) {
+        	printf("Prueba 2: Pasada - Error al ejecutar comando inexistente.\n");
+    	} else {
+        	printf("Prueba 2: Fallida - El comando inexistente se ejecutó correctamente.\n");
+    	}
+
+    	return 0;
+}
+
 int ejecutarComando(char* comando) {
     pid_t pid = fork();
 
@@ -59,23 +84,3 @@ int ejecutarComando(char* comando) {
 	
     return 0; // Éxito
 }
-
-int main() {
-    	//char comando_inexistente[] = "xyzabc";
-    	char comando_inexistente[] = "datxxxxxe";
-    	int resultado = ejecutarComando(comando_inexistente);
-    	/*
-	ORIGINAL:
-	if (resultado == -1) {
-    	Esta línea pretende evaluar si hemos recibido un código de error pero no funciona correctamente
-	*/
-	//Si todo ha ido bien el resultado será 0, por lo que evaluamos si ha habido algún error:
-	if (resultado != 0) {
-        	printf("Prueba 2: Pasada - Error al ejecutar comando inexistente.\n");
-    	} else {
-        	printf("Prueba 2: Fallida - El comando inexistente se ejecutó correctamente.\n");
-    	}
-
-    	return 0;
-}
-
