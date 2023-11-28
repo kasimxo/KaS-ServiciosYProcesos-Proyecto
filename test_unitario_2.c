@@ -55,7 +55,7 @@ int ejecutarComando(char* comando) {
         char *args[MAX_LINE / 2 + 1];
         char *token = strtok(comando, " ");
 
-        int i = 0;
+       int i = 0;
         while (token != NULL) {
             args[i] = token;
             token = strtok(NULL, " ");

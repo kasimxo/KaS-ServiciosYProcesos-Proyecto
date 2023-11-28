@@ -15,26 +15,29 @@ int main() {
     while (should_run) {
         printf("MiShell> ");
         fflush(stdout);
-
+	
         fgets(input, MAX_LINE, stdin);
 
+        // Reemplazar el salto de línea con un terminador de cadena
+        input[strlen(input) - 1] = '\0';
 	
 	//MODIFICACION:
 	//Incluimos un log para que el usurio pueda ver qué comandos ha introducido 
 	FILE* ComandosLog;
 	ComandosLog = fopen("ComandosLog", "a");
+	//Vamos a incluir también la hora en la que ha introducido el comando
 	time_t hora;
 	time(&hora);
 	struct tm tm = *localtime(&hora);
 	char buffer[25];
 	int cont;
 	cont = snprintf(buffer, 25, "\n%d/%d/%d - ",tm.tm_mday, tm.tm_mon+1, tm.tm_year+1900);
-	fwrite(buffer, 1, sizeof(buffer), ComandosLog);
+	
+	fwrite(buffer, 1, cont, ComandosLog);
+	
 	fwrite(input,1, sizeof(input), ComandosLog);
 	fclose(ComandosLog);	
 
-        // Reemplazar el salto de línea con un terminador de cadena
-        input[strlen(input) - 1] = '\0';
         
 	// Salir si el usuario ingresa "exit"
         if (strcmp(input, "exit") == 0) {

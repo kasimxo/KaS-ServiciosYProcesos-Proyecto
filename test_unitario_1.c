@@ -40,14 +40,26 @@ int ejecutarComando(char* comando) {
     return 0; // Éxito
 }
 
-int main() {
-    char comando_ls[] = "ls";
-    int resultado = ejecutarComando(comando_ls);
+/*
+MODIFICACION:
+Permitimos que al ejecutar este test el usuario pueda introducir un comando como argumento para la prueba
 
+*/
+
+int main(int argc, char* argv[]) {
+    	char *comando_ls[1];
+	int resultado;
+	if(argc>1) {
+		resultado = ejecutarComando(argv[1]);
+		comando_ls[0] = argv[1];
+	} else {
+		comando_ls[0] = "ls";
+		resultado = ejecutarComando(comando_ls);
+	}
     if (resultado == 0) {
-        printf("Prueba 1: Pasada - El comando 'ls' se ejecutó correctamente.\n");
+        printf("Prueba 1: Pasada - El comando '%s' se ejecutó correctamente.\n", comando_ls[0]);
     } else {
-        printf("Prueba 1: Fallida - Error al ejecutar el comando 'ls'.\n");
+        printf("Prueba 1: Fallida - Error al ejecutar el comando '%s'.\n", comando_ls[0]);
     }
 
     return 0;
