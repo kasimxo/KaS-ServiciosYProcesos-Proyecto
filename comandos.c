@@ -78,8 +78,12 @@ int main() {
                     i++;
                 }
                 args[i] = NULL; // Marcar el final de los argumentos
-
-                execvp(args[0], args);
+		//MODIFICACION:
+		//Evaluamos si el comando no es reconocido para mostrar un mensaje al usuario
+                int resultado = execvp(args[0], args);
+		if(resultado != 0) {
+			printf("Comando no reconocido\n");
+		}
                 exit(0);
             } else {
                 // Este es el proceso padre

@@ -6,6 +6,11 @@
 #include <sys/wait.h>
 
 #define MAX_LINE 80
+//Declaramos los resultados del test
+#define EXITO 1
+#define FALLO 0
+#define ERROR -1
+
 
 /*
 El proposito de este test unitario es evaluar si se ejecuta correctamente un comando:
@@ -29,7 +34,7 @@ int ejecutarComando(char* comando) {
         }
         args[i] = NULL;
 
-        execvp(args[0], args);
+       	execvp(args[0], args);
         exit(0);
     } else if (pid > 0) {
         wait(NULL);
