@@ -4,14 +4,19 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+//Se incluye una librería para utilizar expresiones regulares
+#include <regex.h>
 
 #define MAX_LINE 80
-//Declaramos los resultados del test
+//Declaramos los resultadoEjecutars del test
 #define EXITO 0
 #define FALLO 1
 #define ERROR -1
 
 int status;
+
+int ejecutarComando();
+int evaluarComando();
 
 /*
 El proposito de este test unitario es evaluar si se ejecuta correctamente un comando:
@@ -37,26 +42,27 @@ int ejecutarComando(char* comando) {
         }
         args[i] = NULL;
 	//MODIFICACION
-	//Recogemos el resultado de la ejecución del comando para evaluar si ha dado algún tipo de error o no
-       	int resultado = execvp(args[0], args);
+	//Recogemos el resultadoEjecutar de la ejecución del comando para evaluar si ha dado algún tipo de error o no
+       	int resultadoEjecutar = execvp(args[0], args);
 
-	if(resultado == 0) {
+	if(resultadoEjecutar == 0) {
 		exit(EXITO);
 	} else {
 		exit(FALLO);
 	}
     } else if (pid > 0) {
         waitpid(pid,&status,0);
+	printf("%d\n",status);
 	if(status == 0) {
 		return EXITO;
 	} else {
 		return FALLO;
 	}
     } else {
-        return -1; // Error al crear el proceso hijo
+        return ERROR; // Error al crear el proceso hijo
     }
-
-    return 0; // Éxito
+	//No se debería alcanzar este código, por lo que se envía error
+    return ERROR; // Éxito
 }
 
 /*
@@ -66,21 +72,59 @@ Permitimos que al ejecutar este test el usuario pueda introducir un comando como
 */
 
 int main(int argc, char* argv[]) {
-    	char *comando_ls[1];
-	int resultado;
+    	char *comando[1];
+	int resultadoEjecutar;
+	int resultadoEvaluar;
+	/*
+	MODIFICACION:
+	Como el propósito del test es evaluar la correcta ejecución de un comando, se incluye la función evaluarComando() que evalúa únicamente el primer carácter del comando para ver si es una letra o cualquier otro símbolo.
+	Ejemplo I: evaluarComando("ls") -> Pasada porque evalúa 'l' y es letra
+	Ejemplo II: evaluarComando("1s") -> Fallida porque evalúa '1' y no es una letra
+	*/
 	if(argc>1) {
-		resultado = ejecutarComando(argv[1]);
-		comando_ls[0] = argv[1];
+		comando[0] = argv[1];
 	} else {
-		comando_ls[0] = "ls";
-		resultado = ejecutarComando(comando_ls[0]);
+		comando[0] = "ls";
 	}
-    if (resultado == 0) {
-        printf("Prueba 1: Pasada - El comando '%s' se ejecutó correctamente.\n", comando_ls[0]);
-    } else {
-        printf("Prueba 1: Fallida - Error al ejecutar el comando '%s'.\n", comando_ls[0]);
-    }
+	resultadoEjecutar = ejecutarComando(comando[0]);
+	printf("Vamos a evaluar el comando");
+	resultadoEvaluar = evaluarComando(comando[0]);
+    	if (resultadoEjecutar == EXITO) {
+        	printf("Prueba 1: Pasada - El comando '%s' se ejecutó correctamente.\n", comando[0]);
+	} else if(resultadoEjecutar == FALLO){
+        	printf("Prueba 1: Fallida - Error al ejecutar el comando '%s'.\n", comando[0]);
+	} else if (resultadoEjecutar == ERROR){
+		printf("Prueba 1: Error - Error durante la ejecución de la prueba");
+	}
+	if (resultadoEvaluar == EXITO){
+		printf("Prueba 2. Pasada - El comando '%s' es válido.",comando[0]);
+	} else if (resultadoEvaluar == FALLO) {
+		printf("Prueba 2: Fallida - El comando '%s' no es válido.", comando[0]);
+	} else if (resultadoEvaluar == ERROR){
+		printf("Prueba 2: Error - Error durante la ejecución de la prueba.");
+	}
 
     return 0;
 }
 
+int evaluarComando(char *com[1]){
+	printf("Hemos entrado en la función");
+	regex_t patt;
+	int compiladorExprRegular;
+	int resultadoExpr;
+	size_t nmatch = 1;
+	regmatch_t pmatch[1];
+	char *expresion = "\\^[a-zA-Z]*\\";
+	printf("Vamos a compilar la expresión regular");
+	if(0 != (compiladorExprRegular = regcomp(&patt,expresion, 0))){
+		printf("\nHa ocurrido un fallo compilando la expresión regular.");
+		return ERROR;
+	}
+	if(0 != (resultadoExpr = regexec(&patt, com[0],nmatch,pmatch,0))) {
+		return FALLO;	
+	} else {
+		return EXITO;
+	}
+
+	return ERROR;
+}
