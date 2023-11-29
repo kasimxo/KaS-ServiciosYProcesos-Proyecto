@@ -107,24 +107,25 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-int evaluarComando(char *com[1]){
-	printf("Hemos entrado en la función");
-	regex_t patt;
+int evaluarComando(char* com){
+	regex_t preg;
+	char *expresion = "^[a-zA-Z][a-zA-Z]*";
 	int compiladorExprRegular;
-	int resultadoExpr;
-	size_t nmatch = 1;
-	regmatch_t pmatch[1];
-	char *expresion = "\\^[a-zA-Z]*\\";
-	printf("Vamos a compilar la expresión regular");
-	if(0 != (compiladorExprRegular = regcomp(&patt,expresion, 0))){
-		printf("\nHa ocurrido un fallo compilando la expresión regular.");
+	compiladorExprRegular = regcomp(&preg, expresion, 0);
+	
+	if(0 != compiladorExprRegular){
+		printf("\nHa ocurrido un fallo compilando la expresión regular: %d", EXIT_FAILURE);
 		return ERROR;
 	}
-	if(0 != (resultadoExpr = regexec(&patt, com[0],nmatch,pmatch,0))) {
+
+
+	int resultadoExpr;
+	size_t nmatch = 2;
+	regmatch_t pmatch[2];
+	if(0 != (resultadoExpr = regexec(&preg, com, nmatch, pmatch,0))) {
 		return FALLO;	
 	} else {
 		return EXITO;
 	}
-
 	return ERROR;
 }
