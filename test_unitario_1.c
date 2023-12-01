@@ -61,7 +61,7 @@ int ejecutarComando(char* comando) {
         return ERROR; // Error al crear el proceso hijo
     }
 	//No se debería alcanzar este código, por lo que se envía error
-    return ERROR; // Éxito
+    return ERROR; // Error
 }
 
 /*
