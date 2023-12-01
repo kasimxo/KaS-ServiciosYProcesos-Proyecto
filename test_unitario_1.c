@@ -52,7 +52,6 @@ int ejecutarComando(char* comando) {
 	}
     } else if (pid > 0) {
         waitpid(pid,&status,0);
-	printf("%d\n",status);
 	if(status == 0) {
 		return EXITO;
 	} else {
