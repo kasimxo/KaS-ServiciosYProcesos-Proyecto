@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 	//Creamos un hilo que contará hasta n
 	//Si termina de contar antes de que se haya ejecutado el test, el resultado es fallido
 	crearHilo();
-	resultadoEjecutar = ejecutarComando(comandoEvaluado);
+	resultadoEjecutar = ejecutarComando(comandoEvaluado[0]);
 	if(resultadoTimer!=0) {
 		printf("Prueba 2: Fallida - El test ha tardado mas de la cuenta");
 	} else{
