@@ -119,8 +119,8 @@ int evaluarComando(char* com){
 
 
 	int resultadoExpr;
-	size_t nmatch = 2;
-	regmatch_t pmatch[2];
+	size_t nmatch = 1;
+	regmatch_t pmatch[1];
 	if(0 != (resultadoExpr = regexec(&preg, com, nmatch, pmatch,0))) {
 		return FALLO;	
 	} else {
