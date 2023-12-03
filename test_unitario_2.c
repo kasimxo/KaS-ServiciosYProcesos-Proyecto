@@ -99,9 +99,6 @@ int ejecutarComando(char* comando) {
 	if(resultadoEjecutar == EXITO) {
 		//Si la ejecución del comando ha salido bien devolvemos 0
 		exit(EXITO);
-	} else if (resultadoEjecutar == FALLO){
-		//Si ha fallado devolvemos un código de fallo
-		exit(FALLO);
 	} else {
 		exit(ERROR);
 	}
@@ -116,8 +113,6 @@ int ejecutarComando(char* comando) {
 	//Devolvemos el resultadoEjecutar del proceso hijo
 	if(status == EXITO) {
 		return EXITO;
-	} else if (status == FALLO){
-		return FALLO;
 	} else {
 		return ERROR;
 	}
