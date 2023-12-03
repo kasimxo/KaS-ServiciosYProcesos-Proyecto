@@ -96,12 +96,14 @@ int ejecutarComando(char* comando) {
 	//Guardamos el resultadoEjecutar de la ejecución del comando
         int resultadoEjecutar = execvp(args[0], args);
 	//Evaluamos si el resultadoEjecutar de la ejecución del comando ha sido correcta o no
-	if(resultadoEjecutar == 0) {
+	if(resultadoEjecutar == EXITO) {
 		//Si la ejecución del comando ha salido bien devolvemos 0
 		exit(EXITO);
-	} else {
+	} else if (resultadoEjecutar == FALLO){
 		//Si ha fallado devolvemos un código de fallo
 		exit(FALLO);
+	} else {
+		exit(ERROR);
 	}
     } else if (pid > 0) {
 	/*
@@ -112,10 +114,12 @@ int ejecutarComando(char* comando) {
 	//Aquí esperamos a que el proceso hijo termine, pero además guardamos el resultadoEjecutar en una variable
 	waitpid(pid,&status, 0);
 	//Devolvemos el resultadoEjecutar del proceso hijo
-	if(status == 0) {
+	if(status == EXITO) {
 		return EXITO;
-	} else {
+	} else if (status == FALLO){
 		return FALLO;
+	} else {
+		return ERROR;
 	}
     } else {
         return ERROR; // Error al crear el proceso hijo
