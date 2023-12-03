@@ -62,11 +62,13 @@ int main(int argc, char* argv[]) {
     	Esta línea pretende evaluar si hemos recibido un código de error pero no funciona correctamente
 	*/
 	//Si todo ha ido bien el resultadoEjecutar será 0, por lo que evaluamos si ha habido algún error:
-	if (resultadoEjecutar != 0) {
+	if (resultadoEjecutar == FALLO) {
         	printf("Prueba 2: Pasada - Error al ejecutar comando inexistente \"%s\"\n",comandoEvaluado[0]);
-    	} else {
+    	} else if (resultadoEjecutar == EXITO) {
         	printf("Prueba 2: Fallida - El comando inexistente \"%s\" se ejecutó correctamente\n", comandoEvaluado[0]);
-    	}
+    	} else {
+		printf("Prueba 2: Error - Se ha producido un error durante la ejecución del comando \"%s\"\n", comandoEvaluado[0]);
+	}
 
     	return 0;
 }
